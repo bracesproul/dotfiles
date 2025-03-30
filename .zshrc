@@ -37,12 +37,25 @@ alias pip="pip3"
 alias root="cd /Users/bracesproul"
 
 alias build="yarn build"
+alias pbuild="pnpm build"
+
 alias gen="yarn gen"
+alias pgen="pnpm gen"
+
 alias test="yarn test:single"
+alias ptest="pnpm test:single"
+
 alias lint="yarn lint"
+alias plint="pnpm lint"
+
 alias lintfix="yarn lint:fix"
+alias plintfix="pnpm lint:fix"
+
 alias format="yarn format"
+alias pformat="pnpm format"
+
 alias formatcheck="yarn format:check"
+alias pformatcheck="pnpm format:check"
 
 alias c="code ."
 alias cursor="code ."
