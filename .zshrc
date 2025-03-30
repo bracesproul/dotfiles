@@ -36,6 +36,9 @@ alias pip="pip3"
 
 alias root="cd /Users/bracesproul"
 
+alias dev="yarn dev"
+alias pdev="pnpm dev"
+
 alias build="yarn build"
 alias pbuild="pnpm build"
 
