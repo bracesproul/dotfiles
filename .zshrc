@@ -105,3 +105,18 @@ alias cpath="pwd | pbcopy"
 
 # Added by Windsurf
 export PATH="/Users/bracesproul/.codeium/windsurf/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/bracesproul/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bracesproul/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/bracesproul/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bracesproul/google-cloud-sdk/completion.zsh.inc'; fi
+
+repo() {
+    open "$(git config --get remote.origin.url | sed 's|git@\(.*\):\(.*\)\.git|https://\1/\2|')/$1/$2"
+}
+
+Repo() {
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+    open "$(git config --get remote.origin.url | sed 's|git@\(.*\):\(.*\)\.git|https://\1/\2|; s|\.git$||')/tree/$branch"
+}
