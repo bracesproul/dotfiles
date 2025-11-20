@@ -60,10 +60,13 @@ alias pformat="pnpm format"
 alias formatcheck="yarn format:check"
 alias pformatcheck="pnpm format:check"
 
+# Cursor
 alias c="code ."
 alias cursor="code ."
+# Windsurf
 alias b="windsurf ."
-alias w="windsurf ."
+# Antigravity
+alias a="agy"
 
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 

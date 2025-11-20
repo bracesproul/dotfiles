@@ -39,7 +39,7 @@ copy_env_files() {
   echo "Copying .env files to worktree directory..."
 
   # Find all .env files in the source directory and copy them to the worktree directory
-  find "$SOURCE_BASE_DIR" -type f \( -name ".env" -o -name "credentials.json" \) | while read -r file; do
+  find "$SOURCE_BASE_DIR" -type f \( -name ".env" -o -name ".env.local" -o -name "credentials.json" \) | while read -r file; do
     # Get the relative path from the source base directory
     relative_path="${file#$SOURCE_BASE_DIR/}"
     
@@ -59,7 +59,16 @@ copy_env_files() {
 SOURCE_BASE_DIR="$(pwd)"
 copy_env_files "$SOURCE_BASE_DIR"
 
-
+# Copy top-level secrets directory if it exists
+if [ -d "$SOURCE_BASE_DIR/secrets" ]; then
+  echo "Copying secrets directory to worktree directory..."
+  rsync -a "$SOURCE_BASE_DIR/secrets/" "$WORKTREE_DIR/secrets/"
+  if [ $? -ne 0 ]; then
+    echo "Secrets directory copy failed."
+    exit 1
+  fi
+  echo "Copied secrets directory successfully."
+fi
 
 # Navigate to worktree directory
 cd $WORKTREE_DIR
@@ -67,15 +76,6 @@ cd $WORKTREE_DIR
 # Error handling for cd command
 if [ $? -ne 0 ]; then
   echo "Failed to change directory."
-  exit 1
-fi
-
-# Run yarn install
-yarn install
-
-# Error handling for yarn install
-if [ $? -ne 0 ]; then
-  echo "Yarn install failed."
   exit 1
 fi
 
