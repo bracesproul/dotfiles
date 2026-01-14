@@ -88,6 +88,13 @@ alias checkoutfork="source /Users/bracesproul/dotfiles/scripts/checkout_fork.sh"
 alias ccf="source /Users/bracesproul/dotfiles/scripts/checkout_fork_custom.sh"
 alias uvinstall="source /Users/bracesproul/dotfiles/scripts/install_py_deps.sh"
 
+# Start LangChainPlus servers (non-agent builder)
+alias startlcp="/Users/bracesproul/dotfiles/scripts/start_langchainplus_servers.sh"
+# Start LangChainPlus agent builder servers
+alias startab="/Users/bracesproul/dotfiles/scripts/start_langchainplus_agent_builder_servers.sh"
+
+alias wtc="source /Users/bracesproul/dotfiles/scripts/setup_worktree_claude.sh"
+
 # Create a new virtual env
 alias cvenv="source /Users/bracesproul/dotfiles/scripts/create_py_venv.sh"
 alias avenv="source /Users/bracesproul/dotfiles/scripts/activate_py_venv.sh"
