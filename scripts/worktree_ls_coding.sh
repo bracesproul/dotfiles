@@ -51,21 +51,14 @@ if [ -z "$PROMPT" ]; then
   return 1
 fi
 
-# Check if branch exists, create it if it doesn't
-if ! git show-ref --verify --quiet refs/heads/$BRANCH_NAME; then
-  echo "Branch '$BRANCH_NAME' doesn't exist. Creating it first..."
-  git branch $BRANCH_NAME
-
-  # Error handling for branch creation
-  if [ $? -ne 0 ]; then
-    echo "Branch creation failed."
-    return 1
-  fi
-  echo "Branch '$BRANCH_NAME' created successfully."
+# Create git worktree (and branch if it doesn't exist)
+if git show-ref --verify --quiet refs/heads/$BRANCH_NAME; then
+  echo "Branch '$BRANCH_NAME' exists. Creating worktree..."
+  git worktree add $WORKTREE_DIR $BRANCH_NAME
+else
+  echo "Creating new branch '$BRANCH_NAME' and worktree..."
+  git worktree add -b $BRANCH_NAME $WORKTREE_DIR
 fi
-
-# Create git worktree and navigate to it
-git worktree add $WORKTREE_DIR $BRANCH_NAME
 
 # Error handling for git worktree
 if [ $? -ne 0 ]; then
