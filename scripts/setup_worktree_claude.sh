@@ -1,16 +1,25 @@
 #!/bin/bash
 
+# =============================================================================
+# CONFIGURATION - Update these values for your machine
+# =============================================================================
+WORKTREE_BASE_DIR="/Users/bracesproul/code/lang-chain-ai/wt"
+INSTALL_COMMAND="uv sync && uv run poe install-deps"
+# =============================================================================
+
 # Exit if no branch name supplied
 if [ -z "$1" ]; then
   echo "Error: No branch name supplied."
   echo "Usage: wtc <branch_name> --prompt \"<prompt>\""
-  exit 1
+  return 1
 fi
 
 # Variables
 BRANCH_NAME=$1
-WORKTREE_DIR="/Users/bracesproul/code/lang-chain-ai/wt/$BRANCH_NAME"
+WORKTREE_DIR="$WORKTREE_BASE_DIR/$BRANCH_NAME"
 PROMPT=""
+YOLO=false
+USE_CODEX=false
 
 # Parse arguments
 shift # Remove branch name from arguments
@@ -20,9 +29,17 @@ while [[ $# -gt 0 ]]; do
       PROMPT="$2"
       shift 2
       ;;
+    --yolo)
+      YOLO=true
+      shift
+      ;;
+    --codex)
+      USE_CODEX=true
+      shift
+      ;;
     *)
       echo "Unknown option: $1"
-      exit 1
+      return 1
       ;;
   esac
 done
@@ -31,7 +48,7 @@ done
 if [ -z "$PROMPT" ]; then
   echo "Error: --prompt argument is required."
   echo "Usage: wtc <branch_name> --prompt \"<prompt>\""
-  exit 1
+  return 1
 fi
 
 # Check if branch exists, create it if it doesn't
@@ -42,7 +59,7 @@ if ! git show-ref --verify --quiet refs/heads/$BRANCH_NAME; then
   # Error handling for branch creation
   if [ $? -ne 0 ]; then
     echo "Branch creation failed."
-    exit 1
+    return 1
   fi
   echo "Branch '$BRANCH_NAME' created successfully."
 fi
@@ -53,7 +70,7 @@ git worktree add $WORKTREE_DIR $BRANCH_NAME
 # Error handling for git worktree
 if [ $? -ne 0 ]; then
   echo "Git worktree creation failed."
-  exit 1
+  return 1
 fi
 
 # Function to copy env files
@@ -89,7 +106,7 @@ if [ -d "$SOURCE_BASE_DIR/secrets" ]; then
   rsync -a "$SOURCE_BASE_DIR/secrets/" "$WORKTREE_DIR/secrets/"
   if [ $? -ne 0 ]; then
     echo "Secrets directory copy failed."
-    exit 1
+    return 1
   fi
   echo "Copied secrets directory successfully."
 fi
@@ -100,22 +117,35 @@ cd $WORKTREE_DIR
 # Error handling for cd command
 if [ $? -ne 0 ]; then
   echo "Failed to change directory."
-  exit 1
+  return 1
 fi
 
 echo "Worktree created successfully."
 
-# Run uv sync and poe run-auth
-echo "Running uv sync && uv run poe run-auth..."
-uv sync && uv run poe run-auth
+# Run install command
+echo "Running $INSTALL_COMMAND..."
+eval "$INSTALL_COMMAND"
 
 if [ $? -ne 0 ]; then
-  echo "uv sync or poe run-auth failed."
-  exit 1
+  echo "Install command failed."
+  return 1
 fi
 
-echo "Dependencies installed successfully."
+echo "Install command completed successfully."
 
-# Run claude with the provided prompt
-echo "Starting claude with prompt..."
-claude "$PROMPT"
+# Run AI assistant with the provided prompt
+if [ "$USE_CODEX" = true ]; then
+  echo "Starting codex with prompt..."
+  if [ "$YOLO" = true ]; then
+    codex --full-auto "$PROMPT"
+  else
+    codex "$PROMPT"
+  fi
+else
+  echo "Starting claude with prompt..."
+  if [ "$YOLO" = true ]; then
+    claude --dangerously-skip-permissions "$PROMPT"
+  else
+    claude "$PROMPT"
+  fi
+fi
