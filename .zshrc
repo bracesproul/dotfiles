@@ -93,7 +93,7 @@ alias startlcp="/Users/bracesproul/dotfiles/scripts/start_langchainplus_servers.
 # Start LangChainPlus agent builder servers
 alias startab="/Users/bracesproul/dotfiles/scripts/start_langchainplus_agent_builder_servers.sh"
 
-alias wtc="source /Users/bracesproul/dotfiles/scripts/setup_worktree_claude.sh"
+alias wtc="source /Users/bracesproul/dotfiles/scripts/worktree_ls_coding.sh"
 
 # Create a new virtual env
 alias cvenv="source /Users/bracesproul/dotfiles/scripts/create_py_venv.sh"
