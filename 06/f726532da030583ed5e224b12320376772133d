@@ -1,0 +1,27 @@
+.zshrc
+  h_33f63fd75d0bd5 64-65,89-90,126-157,159-162,171
+  s_37ed3eb795a7e4::t_0a552cfbca32f6 172-175
+  s_37ed3eb795a7e4::t_4ef5949121c05d 176-177
+  h_33f63fd75d0bd5 158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "06f726532da030583ed5e224b12320376772133d",
+  "prompts": {},
+  "humans": {
+    "h_33f63fd75d0bd5": {
+      "author": "bracesproul <braceasproul@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_37ed3eb795a7e4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ef7bc-942d-70c0-bd7a-ee397286bf5f",
+        "model": "gpt-5.5"
+      },
+      "human_author": "bracesproul <braceasproul@gmail.com>"
+    }
+  }
+}
